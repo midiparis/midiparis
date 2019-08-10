@@ -36,7 +36,7 @@ link1_status=$(curl -Is http://51.15.226.83/WS2012R2.ISO | grep HTTP | cut -f2 -
 link2_status=$(curl -Is https://ia601506.us.archive.org/4/items/WS2012R2/WS2012R2.ISO | grep HTTP | cut -f2 -d" ")
 #sudo wget -P /mediabots https://archive.org/download/WS2012R2/WS2012R2.ISO # Windows Server 2012 R2 
 if [ $link1_status = "200" ] ; then 
-	sudo wget -P /mediabots https://volafile.org/get/Cju_OSRCtM4JG/WS2012R2.iso
+	sudo wget -P /mediabots https://onedrive.live.com/download?cid=5CBECE5A0AC9B779&resid=5CBECE5A0AC9B779!362&authkey=AF9IhYKkew8_xfc
 elif [ $link2_status = "200" -o $link2_status = "301" ] ; then 
 	sudo wget -P /mediabots https://volafile.org/get/Cju_OSRCtM4JG/WS2012R2.iso
 else
