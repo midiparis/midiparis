@@ -10,7 +10,7 @@ else
 #
 # Deleting Previous Windows Installation by the Script
 #umount -l /mnt /media/script /media/sw
-#rm -rf /midiparis /floppy /virtio /media/* /tmp/*
+#rm -rf /mediabots /floppy /virtio /media/* /tmp/*
 #rm -f /sw.iso /disk.img 
 # installing required Ubuntu packages
 dist=$(hostnamectl | egrep "Operating System" | cut -f2 -d":" | cut -f2 -d " ")
@@ -20,7 +20,7 @@ if [ $dist = "CentOS" ] ; then
 	# Downloading Portable QEMU-KVM
 	echo "Downloading QEMU"
 	sudo yum update -y
-	sudo yum install -y qemu-kvma
+	sudo yum install -y qemu-kvm
 elif [ $dist = "Ubuntu" -o $dist = "Debian" ] ; then
 	printf "Y\n" | apt-get install sudo -y
 	sudo apt-get install vim curl genisoimage -y
@@ -31,16 +31,16 @@ elif [ $dist = "Ubuntu" -o $dist = "Debian" ] ; then
 fi
 sudo ln -s /usr/bin/genisoimage /usr/bin/mkisofs
 # Downloading resources
-sudo mkdir /midiparis /floppy /virtio
+sudo mkdir /mediabots /floppy /virtio
 link1_status=$(curl -Is http://51.15.226.83/WS2012R2.ISO | grep HTTP | cut -f2 -d" ")
 link2_status=$(curl -Is https://ia601506.us.archive.org/4/items/WS2012R2/WS2012R2.ISO | grep HTTP | cut -f2 -d" ")
-#sudo wget -P /midiparis https://archive.org/download/WS2012R2/WS2012R2.ISO # Windows Server 2012 R2 
+#sudo wget -P /mediabots https://archive.org/download/WS2012R2/WS2012R2.ISO # Windows Server 2012 R2 
 if [ $link1_status = "200" ] ; then 
-	sudo wget -P https://volafile.org/get/Cju_OSRCtM4JG/WS2012R2.iso
+	sudo wget -P /mediabots https://onedrive.live.com/download?cid=5CBECE5A0AC9B779&resid=5CBECE5A0AC9B779!362&authkey=AF9IhYKkew8_xfc
 elif [ $link2_status = "200" -o $link2_status = "301" ] ; then 
-	sudo wget -P https://volafile.org/get/Cju_OSRCtM4JG/WS2012R2.iso
+	sudo wget -P /mediabots https://onedrive.live.com/download?cid=5CBECE5A0AC9B779&resid=5CBECE5A0AC9B779!362&authkey=AF9IhYKkew8_xfc
 else
-	echo -e "${RED}[Error]${NC} ${YELLOW}Sorry! None of Windows OS image urls are available , please report about this issue on Github page : ${NC}https://github.com/midiparis/Linux-to-Windows-with-QEMU"
+	echo -e "${RED}[Error]${NC} ${YELLOW}Sorry! None of Windows OS image urls are available , please report about this issue on Github page : ${NC}https://github.com/mediabots/Linux-to-Windows-with-QEMU"
 	echo "Exiting.."
 	sleep 30
 	exit 1
@@ -92,7 +92,7 @@ else
 fi
 #
 # setting up default values
-custom_param_os="/midiparis/"$(ls /midiparis)
+custom_param_os="/mediabots/"$(ls /mediabots)
 custom_param_sw="/sw.iso"
 custom_param_virtio="/virtio/"$(ls /virtio)
 #
@@ -120,7 +120,7 @@ if [ $availableRAM -ge 4650 ] ; then # opened 2nd if
 		sudo dd if=/dev/zero of=$firstDisk bs=1M count=1 # blank out the disk
 		echo "mounting devices"
 		mount -t tmpfs -o size=4500m tmpfs /mnt
-		mv /midiparis/* /mnt
+		mv /mediabots/* /mnt
 		mkdir /media/sw
 		mount -t tmpfs -o size=121m tmpfs /media/sw
 		mv /sw.iso /media/sw
@@ -189,7 +189,7 @@ if [ $availableRAM -ge 4650 ] ; then
 		sudo dd if=/dev/zero of=$firstDisk bs=1M count=1 # blank out the disk
 		echo "mounting devices"
 		mount -t tmpfs -o size=4500m tmpfs /mnt
-		mv /midiparis/* /mnt
+		mv /mediabots/* /mnt
 		mkdir /media/sw
 		mount -t tmpfs -o size=121m tmpfs /media/sw
 		mv /sw.iso /media/sw
